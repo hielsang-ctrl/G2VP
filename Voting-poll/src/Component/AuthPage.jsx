@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -13,9 +14,21 @@ import {
 } from "../firebase";
 
 const providerButtons = [
-  { label: "Google", provider: googleProvider, className: "bg-white text-slate-950 hover:bg-slate-200" },
-  { label: "GitHub", provider: githubProvider, className: "bg-slate-950 text-white hover:bg-slate-800" },
-  { label: "Twitter", provider: twitterProvider, className: "bg-sky-500 text-white hover:bg-sky-600" },
+  {
+    label: "Google",
+    provider: googleProvider,
+    className: "bg-white text-slate-950 hover:bg-slate-200",
+  },
+  {
+    label: "GitHub",
+    provider: githubProvider,
+    className: "bg-slate-950 text-white hover:bg-slate-800",
+  },
+  {
+    label: "Twitter",
+    provider: twitterProvider,
+    className: "bg-sky-500 text-white hover:bg-sky-600",
+  },
 ];
 
 const getAuthMessage = (code) => {
@@ -38,6 +51,7 @@ const getAuthMessage = (code) => {
 };
 
 function AuthPage() {
+  const navigate = useNavigate();
   const [mode, setMode] = useState("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,6 +71,7 @@ function AuthPage() {
       } else {
         await signInWithEmailAndPassword(auth, email, password);
       }
+      navigate("/");
     } catch (err) {
       setError(getAuthMessage(err.code));
     } finally {
@@ -70,6 +85,7 @@ function AuthPage() {
 
     try {
       await signInWithPopup(auth, provider);
+      navigate("/");
     } catch (err) {
       setError(getAuthMessage(err.code));
     } finally {
@@ -81,9 +97,12 @@ function AuthPage() {
     return (
       <main className="mx-auto flex min-h-svh w-full max-w-lg items-center p-4">
         <section className="w-full rounded-lg border border-red-400/40 bg-red-950/30 p-5 text-left">
-          <h1 className="mb-3 text-2xl font-bold text-white">Firebase setup needed</h1>
+          <h1 className="mb-3 text-2xl font-bold text-white">
+            Firebase setup needed
+          </h1>
           <p className="text-sm text-red-100">
-            Add your Firebase web app values to a local <code>.env</code> file before users can sign in.
+            Add your Firebase web app values to a local <code>.env</code> file
+            before users can sign in.
           </p>
         </section>
       </main>
@@ -97,7 +116,9 @@ function AuthPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-green-400">
             Secure voting
           </p>
-          <h1 className="mt-2 text-3xl font-bold text-white">Sign in before you vote</h1>
+          <h1 className="mt-2 text-3xl font-bold text-white">
+            Sign in before you vote
+          </h1>
           <p className="mt-2 text-sm text-slate-400">
             Use email and password, or continue with your social account.
           </p>
@@ -111,7 +132,9 @@ function AuthPage() {
               setError("");
             }}
             className={`rounded-md py-2 text-sm font-semibold transition ${
-              !isRegistering ? "bg-blue-500 text-white" : "text-slate-400 hover:text-white"
+              !isRegistering
+                ? "bg-blue-500 text-white"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             Sign in
@@ -123,7 +146,9 @@ function AuthPage() {
               setError("");
             }}
             className={`rounded-md py-2 text-sm font-semibold transition ${
-              isRegistering ? "bg-blue-500 text-white" : "text-slate-400 hover:text-white"
+              isRegistering
+                ? "bg-blue-500 text-white"
+                : "text-slate-400 hover:text-white"
             }`}
           >
             Register
@@ -167,7 +192,11 @@ function AuthPage() {
             disabled={isSubmitting}
             className="w-full rounded-lg bg-green-500 py-3 font-semibold text-slate-950 transition hover:bg-green-400 disabled:cursor-wait disabled:bg-slate-600 disabled:text-slate-300"
           >
-            {isSubmitting ? "Checking credentials..." : isRegistering ? "Create account" : "Sign in to vote"}
+            {isSubmitting
+              ? "Checking credentials..."
+              : isRegistering
+              ? "Create account"
+              : "Sign in to vote"}
           </button>
         </form>
 
