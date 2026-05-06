@@ -45,6 +45,12 @@ const getAuthMessage = (code) => {
       return "The sign-in window was closed before finishing.";
     case "auth/account-exists-with-different-credential":
       return "This email is already connected to another sign-in method.";
+    case "auth/operation-not-allowed":
+      return "This sign-in method is not enabled in Firebase Authentication.";
+    case "auth/unauthorized-domain":
+      return "This website domain is not authorized in Firebase Authentication.";
+    case "auth/popup-blocked":
+      return "Your browser blocked the sign-in popup. Allow popups and try again.";
     default:
       return "Authentication failed. Check your details and try again.";
   }

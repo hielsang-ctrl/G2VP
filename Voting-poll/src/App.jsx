@@ -4,7 +4,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import AuthPage from "./Component/AuthPage";
 import PollForm from "./Component/PollForm";
 import PollList from "./Component/PollList";
-import { auth, hasFirebaseConfig } from "./firebase";
+import { auth } from "./firebase";
 
 const defaultOptions = [
   { id: 1, text: "Immanuel Okoth", votes: 0 },
@@ -72,7 +72,7 @@ const PublicRoute = ({ children, user, isLoading }) => {
 
 function PollApp({ user }) {
   const [options, setOptions] = useState(readSavedOptions);
-  const [hasVoted, setHasVoted] = useState(false);
+  const [hasVoted, setHasVoted] = useState(() => readHasVoted(user?.uid));
   const [error, setError] = useState("");
 
   const normalize = (text) => text.trim().toLowerCase().replace(/\s+/g, " ");
@@ -80,14 +80,6 @@ function PollApp({ user }) {
   useEffect(() => {
     localStorage.setItem("pollOptions", JSON.stringify(options));
   }, [options]);
-
-  useEffect(() => {
-    
-    if (user) {
-      const votedStatus = readHasVoted(user.uid);
-      setHasVoted(votedStatus);
-    }
-  }, [user]);
 
   useEffect(() => {
     if (user) {
@@ -200,12 +192,11 @@ function PollApp({ user }) {
 
 function App() {
   const [user, setUser] = useState(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isAuthLoading, setIsAuthLoading] = useState(Boolean(auth));
 
   useEffect(() => {
     if (!auth) {
-      setIsAuthLoading(false);
-      return;
+      return undefined;
     }
     
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -217,13 +208,13 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route
           path="/"
           element={
             <ProtectedRoute user={user} isLoading={isAuthLoading}>
-              <PollApp user={user} />
+              <PollApp key={user?.uid} user={user} />
             </ProtectedRoute>
           }
         />

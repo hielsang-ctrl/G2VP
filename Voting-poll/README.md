@@ -97,6 +97,26 @@ Vote button
 6. Enable **Email/Password**, **Google**, **GitHub**, and **Twitter**
 7. Add your local and deployed domains in **Authentication > Settings > Authorized domains**
 
+# GitHub Pages Deployment
+
+This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml`.
+
+1. Push the project to GitHub
+2. Open **Settings > Pages**
+3. Set **Source** to **GitHub Actions**
+4. Open **Settings > Secrets and variables > Actions**
+5. Add these repository secrets:
+
+VITE_FIREBASE_API_KEY  
+VITE_FIREBASE_AUTH_DOMAIN  
+VITE_FIREBASE_PROJECT_ID  
+VITE_FIREBASE_STORAGE_BUCKET  
+VITE_FIREBASE_MESSAGING_SENDER_ID  
+VITE_FIREBASE_APP_ID  
+VITE_FIREBASE_MEASUREMENT_ID
+
+The workflow runs on pushes to `main` and can also be started manually from the **Actions** tab.
+
 
 
 # Contributing
