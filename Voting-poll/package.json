@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://hielsang-ctrl.github.io/VOTING-POLL/",
+  "homepage": "https://hielsang-ctrl.github.io/G2VP/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
