@@ -1,0 +1,11 @@
+{
+  "buildCommand": "cd Voting-poll && npm ci && npm run build",
+  "outputDirectory": "Voting-poll/dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
